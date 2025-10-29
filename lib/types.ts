@@ -10,7 +10,7 @@ export interface PricingInfo {
 export interface DomainCheckResult {
   domain: string;
   available: boolean;
-  provider: "porkbun";
+  provider: "domainr";
   pricing?: PricingInfo;
   error?: string;
 }

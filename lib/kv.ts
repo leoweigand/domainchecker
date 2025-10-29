@@ -9,7 +9,7 @@ const CACHE_EXPIRATION_MS = 24 * 60 * 60 * 1000; // 1 day in milliseconds
  * Returns null if not cached or expired
  */
 export async function getCachedTLDs(
-  provider: "cloudflare" | "porkbun",
+  provider: "domainr",
 ): Promise<string[] | null> {
   const result = await kv.get<string[]>(["tlds", provider]);
 
@@ -24,7 +24,7 @@ export async function getCachedTLDs(
  * Caches TLD list for a provider with 1-day expiration
  */
 export async function setCachedTLDs(
-  provider: "cloudflare" | "porkbun",
+  provider: "domainr",
   tlds: string[],
 ): Promise<void> {
   await kv.set(["tlds", provider], tlds, {

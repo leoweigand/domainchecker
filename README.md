@@ -1,6 +1,6 @@
 # Domain Checker Bot
 
-A Telegram bot that checks domain availability using the Porkbun API.
+A Telegram bot that checks domain availability using the Domainr API.
 
 > [!note]
 Due to api usage limits, this bot is only enabled for allowlisted Telegram handles but you can easily deploy your own following the instructions below.
@@ -14,8 +14,8 @@ Due to api usage limits, this bot is only enabled for allowlisted Telegram handl
    references
 
 3. Store your API credentials in 1Password:
-   - **Porkbun API Keys**: Get from https://porkbun.com/account/api
-   - Enable API access in your Porkbun account settings
+   - **Domainr RapidAPI Key**: Get from https://rapidapi.com/domainr/api/domainr
+   - Sign up for RapidAPI and subscribe to the Domainr API (free tier available)
 
 4. Run locally:
    ```bash
@@ -43,7 +43,7 @@ The `dev` and `test` tasks automatically inject secrets using
 
 1. Set environment variables in Deno Deploy:
    - `TELEGRAM_BOT_TOKEN`
-   - `PORKBUN_API_KEY`, `PORKBUN_SECRET_KEY`
+   - `DOMAINR_RAPIDAPI_KEY`
    - `ALLOW_HANDLES` (required) - Comma-separated list of allowed Telegram
      usernames (without @). Example: `user1,user2,user3`
 
@@ -65,7 +65,7 @@ The `dev` and `test` tasks automatically inject secrets using
 ## Usage
 
 Send any domain name to the bot (e.g., `example.com`) and it will check
-availability and pricing.
+availability.
 
 ## License
 

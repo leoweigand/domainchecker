@@ -1,6 +1,6 @@
 // Main webhook handler for Telegram bot
 
-import { PorkbunDomainChecker } from "./lib/porkbun.ts";
+import { DomainrDomainChecker } from "./lib/domainr.ts";
 import { sendMessage, setMessageReaction } from "./lib/telegram.ts";
 import type { DomainCheckResult } from "./lib/types.ts";
 import { formatPrice, isValidDomain } from "./lib/utils.ts";
@@ -23,13 +23,13 @@ interface TelegramUpdate {
   };
 }
 
-const porkbunChecker = new PorkbunDomainChecker();
+const domainrChecker = new DomainrDomainChecker();
 
 /**
- * Checks domain availability using Porkbun
+ * Checks domain availability using Domainr
  */
 async function checkDomain(domain: string): Promise<DomainCheckResult> {
-  return await porkbunChecker.checkAvailability(domain);
+  return await domainrChecker.checkAvailability(domain);
 }
 
 /**
@@ -40,7 +40,7 @@ function formatResult(result: DomainCheckResult): string {
   if (result.error) {
     // If TLD is not supported
     if (result.error.includes("not supported")) {
-      return `Error: The domain "${result.domain}" uses a TLD that is not supported by Porkbun.`;
+      return `Error: The domain "${result.domain}" uses a TLD that is not supported.`;
     }
     return `Error: ${result.error}`;
   }
@@ -80,11 +80,7 @@ export async function handleWebhook(update: TelegramUpdate): Promise<void> {
   if (text === "/start") {
     const welcomeMessage = "Welcome to Domain Checker Bot!\n\n" +
       "Send me any domain name (e.g., example.com) and I'll check if it's available for registration.\n\n" +
-      "I'll show you:\n" +
-      "• Availability status\n" +
-      "• Pricing information\n" +
-      "• First-year discounts (if available)\n\n" +
-      "Powered by Porkbun API";
+      "Powered by Domainr API";
     await sendMessage(chatId, welcomeMessage);
     return;
   }

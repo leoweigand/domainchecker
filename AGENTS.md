@@ -6,13 +6,13 @@ and summarizes the project's conventions.
 
 ## Project Overview
 
-This is a Telegram bot that checks domain name availability using the Porkbun
-API. The bot is built with Deno and TypeScript and is designed to be deployed on
-Deno Deploy.
+This is a Telegram bot that checks domain name availability using the Domainr
+API (via RapidAPI). The bot is built with Deno and TypeScript and is designed to
+be deployed on Deno Deploy.
 
 The bot uses a whitelist of allowed Telegram usernames, configured via the
 `ALLOW_HANDLES` environment variable. It also uses Deno's built-in Key-Value
-store (`Deno.Kv`) to cache the list of supported TLDs from the Porkbun API for
+store (`Deno.Kv`) to cache the list of supported TLDs from the Domainr API for
 improved performance.
 
 ## Development Conventions
@@ -30,7 +30,7 @@ improved performance.
   responsibilities:
   - `index.ts`: Main entry point for Deno Deploy.
   - `webhook.ts`: Core bot logic and Telegram webhook handler.
-  - `lib/porkbun.ts`: Porkbun API client.
+  - `lib/domainr.ts`: Domainr API client.
   - `lib/telegram.ts`: Helper functions for the Telegram Bot API.
   - `lib/types.ts`: Core data structures.
   - `lib/utils.ts`: Utility functions (e.g., domain validation).
