@@ -1,8 +1,10 @@
 # Domain Checker Bot
 
 A Telegram bot that checks domain availability using the Domainr API.
+Zero dependencies and no build step, running on Deno Deploy.
 
-> [!note] Due to api usage limits, this bot is only enabled for allowlisted
+> [!note]
+> Due to api usage limits, this bot is only enabled for allowlisted
 > Telegram handles but you can easily deploy your own following the instructions
 > below.
 
@@ -56,12 +58,3 @@ A Telegram bot that checks domain availability using the Domainr API.
    ```bash
    deno task webhook:info
    ```
-
-## Usage
-
-Send any domain name to the bot (e.g., `example.com`) and it will check
-availability.
-
-## License
-
-MIT
