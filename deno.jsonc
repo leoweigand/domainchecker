@@ -5,16 +5,16 @@
     "start": "deno run --allow-net --allow-env index.ts",
     "test": "deno test --allow-net --allow-env",
     "webhook": "bash -c 'curl -X POST \"https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/setWebhook\" -d \"url=$0\"'",
-    "webhook:info": "bash -c 'curl \"https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/getWebhookInfo\"'",
+    "webhook:info": "bash -c 'curl \"https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/getWebhookInfo\"'"
   },
   "compilerOptions": {
     "strict": true,
-    "lib": ["deno.window", "deno.unstable"],
+    "lib": ["deno.window", "deno.unstable"]
   },
   "lint": {
     "rules": {
-      "tags": ["recommended"],
-    },
+      "tags": ["recommended"]
+    }
   },
-  "unstable": ["kv"],
+  "unstable": ["kv"]
 }

@@ -2,8 +2,9 @@
 
 A Telegram bot that checks domain availability using the Domainr API.
 
-> [!note]
-Due to api usage limits, this bot is only enabled for allowlisted Telegram handles but you can easily deploy your own following the instructions below.
+> [!note] Due to api usage limits, this bot is only enabled for allowlisted
+> Telegram handles but you can easily deploy your own following the instructions
+> below.
 
 ## Local Development
 
