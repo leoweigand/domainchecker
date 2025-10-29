@@ -1,7 +1,6 @@
 # Domain Checker Bot
 
-A Telegram bot that checks domain availability using Cloudflare and Porkbun
-APIs.
+A Telegram bot that checks domain availability using the Porkbun API.
 
 ## Local Development
 
@@ -12,10 +11,8 @@ APIs.
    references
 
 3. Store your API credentials in 1Password:
-   - **Cloudflare API Token**: Create at
-     https://dash.cloudflare.com/profile/api-tokens
-     - Permission: `Account.Registrar Domains - Read`
    - **Porkbun API Keys**: Get from https://porkbun.com/account/api
+   - Enable API access in your Porkbun account settings
 
 4. Run locally:
    ```bash
@@ -30,7 +27,6 @@ The `dev` and `test` tasks automatically inject secrets using
 
 1. Set environment variables in Deno Deploy:
    - `TELEGRAM_BOT_TOKEN`
-   - `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`
    - `PORKBUN_API_KEY`, `PORKBUN_SECRET_KEY`
 
 2. Deploy to Deno Deploy:

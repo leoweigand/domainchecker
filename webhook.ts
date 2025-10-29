@@ -1,6 +1,5 @@
 // Main webhook handler for Telegram bot
 
-import { CloudflareDomainChecker } from "./lib/cloudflare.ts";
 import { PorkbunDomainChecker } from "./lib/porkbun.ts";
 import { sendChatAction, sendMessage } from "./lib/telegram.ts";
 import type { DomainCheckResult } from "./lib/types.ts";
@@ -23,27 +22,13 @@ interface TelegramUpdate {
   };
 }
 
-const cloudflareChecker = new CloudflareDomainChecker();
 const porkbunChecker = new PorkbunDomainChecker();
 
 /**
- * Checks domain availability, trying Cloudflare first, then Porkbun
+ * Checks domain availability using Porkbun
  */
 async function checkDomain(domain: string): Promise<DomainCheckResult> {
-  // Try Cloudflare first
-  const cloudflareResult = await cloudflareChecker.checkAvailability(domain);
-
-  // If Cloudflare succeeded (no TLD support error), return result
-  if (
-    !cloudflareResult.error ||
-    !cloudflareResult.error.includes("not supported")
-  ) {
-    return cloudflareResult;
-  }
-
-  // Fallback to Porkbun
-  const porkbunResult = await porkbunChecker.checkAvailability(domain);
-  return porkbunResult;
+  return await porkbunChecker.checkAvailability(domain);
 }
 
 /**
@@ -52,9 +37,9 @@ async function checkDomain(domain: string): Promise<DomainCheckResult> {
 function formatResult(result: DomainCheckResult): string {
   // If there's an error and domain is not available
   if (result.error) {
-    // If both services don't support the TLD
+    // If TLD is not supported
     if (result.error.includes("not supported")) {
-      return `Error: The domain "${result.domain}" uses a TLD that is not supported by our providers.`;
+      return `Error: The domain "${result.domain}" uses a TLD that is not supported by Porkbun.`;
     }
     return `Error: ${result.error}`;
   }

@@ -1,7 +1,7 @@
 // Integration tests for Porkbun domain checker
 // These tests make real API calls and require valid credentials
 
-import { assertEquals, assertExists } from "jsr:@std/assert";
+import { assertEquals, assertExists } from "jsr:@std/assert@1";
 import { PorkbunDomainChecker } from "./porkbun.ts";
 
 Deno.test({

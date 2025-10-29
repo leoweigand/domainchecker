@@ -6,7 +6,7 @@ import { extractTLD } from "./utils.ts";
 
 const PORKBUN_API_KEY = Deno.env.get("PORKBUN_API_KEY");
 const PORKBUN_SECRET_KEY = Deno.env.get("PORKBUN_SECRET_KEY");
-const PORKBUN_API_BASE = "https://porkbun.com/api/json/v3";
+const PORKBUN_API_BASE = "https://api.porkbun.com/api/json/v3";
 
 interface PorkbunAuthBody {
   apikey: string;
@@ -24,6 +24,7 @@ interface PorkbunAvailabilityResponse {
 
 interface PorkbunPricingResponse {
   status: "SUCCESS" | "ERROR";
+  message?: string;
   pricing?: Record<
     string,
     {
@@ -137,10 +138,20 @@ export class PorkbunDomainChecker implements DomainChecker {
         body: JSON.stringify(this.getAuthBody()),
       });
 
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(
+          `Porkbun API error: ${response.status} ${response.statusText}`,
+        );
+        console.error(`Response body: ${errorText}`);
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
       const data: PorkbunPricingResponse = await response.json();
 
       if (data.status === "ERROR" || !data.pricing) {
-        throw new Error("Failed to fetch Porkbun pricing");
+        console.error("Porkbun API response:", data);
+        throw new Error(data.message || "Failed to fetch Porkbun pricing");
       }
 
       // Extract TLDs from pricing object
