@@ -1,0 +1,16 @@
+{
+  // Deno configuration file
+  "tasks": {
+    "dev": "deno run --allow-net --allow-env --unstable-kv --watch index.ts",
+    "start": "deno run --allow-net --allow-env --unstable-kv index.ts"
+  },
+  "compilerOptions": {
+    "strict": true,
+    "lib": ["deno.window", "deno.unstable"]
+  },
+  "lint": {
+    "rules": {
+      "tags": ["recommended"]
+    }
+  }
+}
