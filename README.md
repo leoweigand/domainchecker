@@ -23,11 +23,26 @@ A Telegram bot that checks domain availability using the Porkbun API.
 The `dev` and `test` tasks automatically inject secrets using
 `op run --env-file=.env`.
 
+5. For local testing with Telegram, you need a public URL (use ngrok or
+   Cloudflare Tunnels):
+   ```bash
+   # Start dev server
+   deno task dev
+
+   # Set webhook to your tunnel URL
+   deno task webhook https://your-tunnel-url/
+
+   # Verify webhook is set
+   deno task webhook:info
+   ```
+
 ## Deployment
 
 1. Set environment variables in Deno Deploy:
    - `TELEGRAM_BOT_TOKEN`
    - `PORKBUN_API_KEY`, `PORKBUN_SECRET_KEY`
+   - `ALLOW_HANDLES` (required) - Comma-separated list of allowed Telegram
+     usernames (without @). Example: `user1,user2,user3`
 
 2. Deploy to Deno Deploy:
    ```bash
@@ -36,8 +51,12 @@ The `dev` and `test` tasks automatically inject secrets using
 
 3. Set Telegram webhook:
    ```bash
-   curl -X POST https://api.telegram.org/bot<TOKEN>/setWebhook \
-     -d url=https://your-project.deno.dev/
+   deno task webhook https://your-project.deno.dev/
+   ```
+
+   Or verify current webhook status:
+   ```bash
+   deno task webhook:info
    ```
 
 ## Usage

@@ -15,11 +15,27 @@ interface PorkbunAuthBody {
 
 interface PorkbunAvailabilityResponse {
   status: "SUCCESS" | "ERROR";
-  availability?: "available" | "taken";
-  price?: string;
-  salePrice?: string;
-  currency?: string;
   message?: string;
+  response?: {
+    avail: "yes" | "no";
+    type: string;
+    price: string;
+    regularPrice: string;
+    firstYearPromo: "yes" | "no";
+    premium: "yes" | "no";
+    additional?: {
+      renewal: {
+        type: string;
+        price: string;
+        regularPrice: string;
+      };
+      transfer: {
+        type: string;
+        price: string;
+        regularPrice: string;
+      };
+    };
+  };
 }
 
 interface PorkbunPricingResponse {
@@ -66,7 +82,7 @@ export class PorkbunDomainChecker implements DomainChecker {
 
       // Check availability (includes pricing)
       const response = await fetch(
-        `${PORKBUN_API_BASE}/domain/availability/${domain}`,
+        `${PORKBUN_API_BASE}/domain/checkDomain/${domain}`,
         {
           method: "POST",
           headers: {
@@ -76,13 +92,30 @@ export class PorkbunDomainChecker implements DomainChecker {
         },
       );
 
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(
+          `Porkbun API error: ${response.status} ${response.statusText}`,
+        );
+        console.error(`Response body: ${errorText}`);
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
       const data: PorkbunAvailabilityResponse = await response.json();
 
       if (data.status === "ERROR") {
         throw new Error(data.message || "Unknown error");
       }
 
-      if (data.availability === "taken") {
+      if (!data.response) {
+        console.error("Unexpected API response:", JSON.stringify(data));
+        throw new Error("Missing response data from Porkbun API");
+      }
+
+      const resp = data.response;
+
+      // Domain is not available
+      if (resp.avail === "no") {
         return {
           domain,
           available: false,
@@ -90,12 +123,13 @@ export class PorkbunDomainChecker implements DomainChecker {
         };
       }
 
-      if (data.availability === "available") {
-        // Parse pricing
-        const regularPrice = parseFloat(data.price || "0");
-        const salePrice = data.salePrice
-          ? parseFloat(data.salePrice)
-          : undefined;
+      // Domain is available
+      if (resp.avail === "yes") {
+        const firstYearPrice = parseFloat(resp.price);
+        const regularPrice = parseFloat(resp.regularPrice);
+        const renewalPrice = resp.additional?.renewal
+          ? parseFloat(resp.additional.renewal.price)
+          : regularPrice;
 
         return {
           domain,
@@ -103,14 +137,15 @@ export class PorkbunDomainChecker implements DomainChecker {
           provider: "porkbun",
           pricing: {
             registration: regularPrice,
-            renewal: regularPrice,
-            firstYear: salePrice !== regularPrice ? salePrice : undefined,
-            currency: data.currency || "USD",
+            renewal: renewalPrice,
+            firstYear: resp.firstYearPromo === "yes" ? firstYearPrice : undefined,
+            currency: "USD",
           },
         };
       }
 
-      throw new Error("Unexpected availability status");
+      console.error("Unexpected API response:", JSON.stringify(data));
+      throw new Error(`Unexpected availability status: ${resp.avail}`);
     } catch (error) {
       return {
         domain,

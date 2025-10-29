@@ -12,6 +12,7 @@ interface TelegramUpdate {
     from: {
       id: number;
       first_name: string;
+      username?: string;
     };
     chat: {
       id: number;
@@ -74,6 +75,39 @@ export async function handleWebhook(update: TelegramUpdate): Promise<void> {
   const chatId = message.chat.id;
   const messageId = message.message_id;
   const text = message.text.trim();
+
+  // Handle /start command
+  if (text === "/start") {
+    const welcomeMessage = "Welcome to Domain Checker Bot!\n\n" +
+      "Send me any domain name (e.g., example.com) and I'll check if it's available for registration.\n\n" +
+      "I'll show you:\n" +
+      "• Availability status\n" +
+      "• Pricing information\n" +
+      "• First-year discounts (if available)\n\n" +
+      "Powered by Porkbun API";
+    await sendMessage(chatId, welcomeMessage);
+    return;
+  }
+
+  // Check authorization
+  const allowHandles = Deno.env.get("ALLOW_HANDLES");
+  if (!allowHandles) {
+    throw new Error("ALLOW_HANDLES environment variable is required");
+  }
+
+  const allowedList = allowHandles.split(",").map((h) =>
+    h.trim().toLowerCase()
+  );
+  const username = message.from.username?.toLowerCase();
+
+  if (!username || !allowedList.includes(username)) {
+    await sendMessage(
+      chatId,
+      "Sorry, this bot is currently not enabled for your account.",
+      messageId,
+    );
+    return;
+  }
 
   // Validate domain
   if (!isValidDomain(text)) {
