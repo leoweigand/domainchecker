@@ -1,7 +1,7 @@
 // Main webhook handler for Telegram bot
 
 import { DomainrDomainChecker } from "./lib/domainr.ts";
-import { sendMessage, setMessageReaction } from "./lib/telegram.ts";
+import { sendMessage, sendTypingAction } from "./lib/telegram.ts";
 import type { DomainCheckResult } from "./lib/types.ts";
 import { formatPrice, isValidDomain } from "./lib/utils.ts";
 
@@ -115,8 +115,8 @@ export async function handleWebhook(update: TelegramUpdate): Promise<void> {
     return;
   }
 
-  // Set reaction to message
-  await setMessageReaction(chatId, messageId, "👀");
+  // Show typing indicator
+  await sendTypingAction(chatId);
 
   // Check domain availability
   const result = await checkDomain(text.toLowerCase());

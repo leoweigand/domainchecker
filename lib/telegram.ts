@@ -43,29 +43,23 @@ export async function sendMessage(
 }
 
 /**
- * Sets a reaction to a message
+ * Sends a typing indicator to a chat
  */
-export async function setMessageReaction(
+export async function sendTypingAction(
   chatId: number,
-  messageId: number,
-  emoji: string,
 ): Promise<void> {
   try {
-    await fetch(`${TELEGRAM_API_BASE}/setMessageReaction`, {
+    await fetch(`${TELEGRAM_API_BASE}/sendChatAction`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         chat_id: chatId,
-        message_id: messageId,
-        reaction: [{
-          type: "emoji",
-          emoji: emoji,
-        }],
+        action: "typing",
       }),
     });
   } catch (error) {
-    console.error("Failed to set message reaction:", error);
+    console.error("Failed to send typing action:", error);
   }
 }
