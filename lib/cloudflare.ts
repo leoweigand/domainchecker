@@ -6,7 +6,6 @@ import { extractTLD } from "./utils.ts";
 
 const CLOUDFLARE_API_TOKEN = Deno.env.get("CLOUDFLARE_API_TOKEN");
 const CLOUDFLARE_ACCOUNT_ID = Deno.env.get("CLOUDFLARE_ACCOUNT_ID");
-const CLOUDFLARE_EMAIL = Deno.env.get("CLOUDFLARE_EMAIL");
 const CLOUDFLARE_API_BASE =
   `https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/registrar`;
 
@@ -49,7 +48,6 @@ export class CloudflareDomainChecker implements DomainChecker {
         {
           headers: {
             Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
-            "X-Auth-Email": CLOUDFLARE_EMAIL!,
           },
         },
       );
@@ -79,7 +77,6 @@ export class CloudflareDomainChecker implements DomainChecker {
         {
           headers: {
             Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
-            "X-Auth-Email": CLOUDFLARE_EMAIL!,
           },
         },
       );
@@ -123,7 +120,6 @@ export class CloudflareDomainChecker implements DomainChecker {
       const response = await fetch(`${CLOUDFLARE_API_BASE}/tlds`, {
         headers: {
           Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
-          "X-Auth-Email": CLOUDFLARE_EMAIL!,
         },
       });
 

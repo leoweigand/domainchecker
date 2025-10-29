@@ -7,7 +7,7 @@ APIs.
 
 1. Set environment variables in Deno Deploy:
    - `TELEGRAM_BOT_TOKEN`
-   - `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_EMAIL`
+   - `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`
    - `PORKBUN_API_KEY`, `PORKBUN_SECRET_KEY`
 
 2. Deploy to Deno Deploy:
