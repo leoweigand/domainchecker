@@ -17,9 +17,8 @@ improved performance.
 
 ## Development Conventions
 
-- **Secrets Management:** Secrets are managed using 1Password for local
-  development and environment variables in production (Deno Deploy), as detailed
-  in the `README.md`.
+- **Secrets Management:** Secrets are managed using environment variables, as
+  detailed in the `README.md`.
 - **Task Runner:** Common commands for development (`dev`, `test`) and
   deployment (`webhook`) are managed as Deno tasks in `deno.jsonc`.
 - **Linting:** The project uses Deno's built-in linter with the recommended

@@ -1,20 +1,20 @@
 {
   // Deno configuration file
   "tasks": {
-    "dev": "op run --env-file=.env -- deno run --allow-net --allow-env --watch index.ts",
+    "dev": "deno run --allow-net --allow-env --watch index.ts",
     "start": "deno run --allow-net --allow-env index.ts",
-    "test": "op run --env-file=.env -- deno test --allow-net --allow-env",
-    "webhook": "op run --env-file=.env -- bash -c 'curl -X POST \"https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/setWebhook\" -d \"url=$0\"'",
-    "webhook:info": "op run --env-file=.env -- bash -c 'curl \"https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/getWebhookInfo\"'"
+    "test": "deno test --allow-net --allow-env",
+    "webhook": "bash -c 'curl -X POST \"https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/setWebhook\" -d \"url=$0\"'",
+    "webhook:info": "bash -c 'curl \"https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/getWebhookInfo\"'",
   },
   "compilerOptions": {
     "strict": true,
-    "lib": ["deno.window", "deno.unstable"]
+    "lib": ["deno.window", "deno.unstable"],
   },
   "lint": {
     "rules": {
-      "tags": ["recommended"]
-    }
+      "tags": ["recommended"],
+    },
   },
-  "unstable": ["kv"]
+  "unstable": ["kv"],
 }

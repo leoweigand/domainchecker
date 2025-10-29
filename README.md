@@ -7,26 +7,20 @@ Due to api usage limits, this bot is only enabled for allowlisted Telegram handl
 
 ## Local Development
 
-1. Install
-   [1Password CLI](https://developer.1password.com/docs/cli/get-started/)
+1. Copy `.env.example` to `.env` and update with your credentials
 
-2. Copy `.env.example` to `.env` and update with your 1Password secret
-   references
-
-3. Store your API credentials in 1Password:
+2. Get your API credentials:
    - **Domainr RapidAPI Key**: Get from https://rapidapi.com/domainr/api/domainr
    - Sign up for RapidAPI and subscribe to the Domainr API (free tier available)
+   - **Telegram Bot Token**: Get from [@BotFather](https://t.me/botfather)
 
-4. Run locally:
+3. Run locally:
    ```bash
    deno task dev    # Start dev server with hot reload
    deno task test   # Run integration tests
    ```
 
-The `dev` and `test` tasks automatically inject secrets using
-`op run --env-file=.env`.
-
-5. For local testing with Telegram, you need a public URL (use ngrok or
+4. For local testing with Telegram, you need a public URL (use ngrok or
    Cloudflare Tunnels):
    ```bash
    # Start dev server
