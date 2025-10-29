@@ -43,24 +43,29 @@ export async function sendMessage(
 }
 
 /**
- * Sends a chat action (e.g., "typing") to show activity
+ * Sets a reaction to a message
  */
-export async function sendChatAction(
+export async function setMessageReaction(
   chatId: number,
-  action: "typing" | "upload_photo" | "upload_document",
+  messageId: number,
+  emoji: string,
 ): Promise<void> {
   try {
-    await fetch(`${TELEGRAM_API_BASE}/sendChatAction`, {
+    await fetch(`${TELEGRAM_API_BASE}/setMessageReaction`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         chat_id: chatId,
-        action: action,
+        message_id: messageId,
+        reaction: [{
+          type: "emoji",
+          emoji: emoji,
+        }],
       }),
     });
   } catch (error) {
-    console.error("Failed to send chat action:", error);
+    console.error("Failed to set message reaction:", error);
   }
 }

@@ -1,7 +1,7 @@
 // Main webhook handler for Telegram bot
 
 import { PorkbunDomainChecker } from "./lib/porkbun.ts";
-import { sendChatAction, sendMessage } from "./lib/telegram.ts";
+import { sendMessage, setMessageReaction } from "./lib/telegram.ts";
 import type { DomainCheckResult } from "./lib/types.ts";
 import { formatPrice, isValidDomain } from "./lib/utils.ts";
 
@@ -119,8 +119,8 @@ export async function handleWebhook(update: TelegramUpdate): Promise<void> {
     return;
   }
 
-  // Send typing indicator
-  await sendChatAction(chatId, "typing");
+  // Set reaction to message
+  await setMessageReaction(chatId, messageId, "👀");
 
   // Check domain availability
   const result = await checkDomain(text.toLowerCase());

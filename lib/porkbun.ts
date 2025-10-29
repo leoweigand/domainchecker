@@ -138,7 +138,9 @@ export class PorkbunDomainChecker implements DomainChecker {
           pricing: {
             registration: regularPrice,
             renewal: renewalPrice,
-            firstYear: resp.firstYearPromo === "yes" ? firstYearPrice : undefined,
+            firstYear: resp.firstYearPromo === "yes"
+              ? firstYearPrice
+              : undefined,
             currency: "USD",
           },
         };
