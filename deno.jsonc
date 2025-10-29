@@ -1,8 +1,9 @@
 {
   // Deno configuration file
   "tasks": {
-    "dev": "deno run --allow-net --allow-env --unstable-kv --watch index.ts",
-    "start": "deno run --allow-net --allow-env --unstable-kv index.ts"
+    "dev": "op run --env-file=.env -- deno run --allow-net --allow-env --watch index.ts",
+    "start": "deno run --allow-net --allow-env index.ts",
+    "test": "op run --env-file=.env -- deno test --allow-net --allow-env"
   },
   "compilerOptions": {
     "strict": true,
@@ -12,5 +13,6 @@
     "rules": {
       "tags": ["recommended"]
     }
-  }
+  },
+  "unstable": ["kv"]
 }
